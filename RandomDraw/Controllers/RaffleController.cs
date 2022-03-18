@@ -28,7 +28,7 @@ namespace RandomDraw.Controllers
         public ActionResult Get()
         {
             var get = _repo.ReadAll();
-            return Ok(get); 
+            return Ok(get);
         }
 
         [HttpGet("SearchId/{id}")]
@@ -38,6 +38,15 @@ namespace RandomDraw.Controllers
             return Ok(getById);
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            if (_repo.Delete(id))
+            {
+                return Ok("Raffle Excluded");
+            }
+            return BadRequest();
+        }
 
     }
 }

@@ -8,7 +8,9 @@ namespace RandomDraw.Repositories
     {
         public bool Generate(Raffle raffle);
         public Raffle[] ReadAll();
-        public Raffle ReadById(int id);  
+        public Raffle ReadById(int id);
+
+        public bool Delete(int id);
     }
 
     public class RaffleRepository : IRaffleRepository
@@ -64,6 +66,24 @@ namespace RandomDraw.Repositories
             IQueryable<Raffle> query = _context.Raffles.AsNoTracking().OrderBy(h=>h.Id);
             return query.FirstOrDefault(p=> p.Id == id);    
 
+        }
+
+        public bool Delete(int id)
+        {
+            try
+            {
+                var idDelete = _context.Raffles.AsNoTracking().FirstOrDefault(p => p.Id == id);
+                if (idDelete != null)
+                {
+                    _context.Raffles.Remove(idDelete);
+                    _context.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
