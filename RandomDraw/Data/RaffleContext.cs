@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RandomDraw.Models;
 
 namespace RandomDraw.Data
 {
@@ -7,6 +8,8 @@ namespace RandomDraw.Data
         public RaffleContext(DbContextOptions<RaffleContext> options) : base(options)
         {
         }
+
+        public DbSet<Raffle> Raffles { get; set; }
 
 
     }
