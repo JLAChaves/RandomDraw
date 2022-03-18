@@ -1,4 +1,5 @@
-﻿using RandomDraw.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RandomDraw.Data;
 using RandomDraw.Models;
 
 namespace RandomDraw.Repositories
@@ -6,6 +7,8 @@ namespace RandomDraw.Repositories
     public interface IRaffleRepository
     {
         public bool Generate(Raffle raffle);
+        public Raffle[] ReadAll();
+        public Raffle ReadById(int id);  
     }
 
     public class RaffleRepository : IRaffleRepository
@@ -48,6 +51,19 @@ namespace RandomDraw.Repositories
                 list.Add(drawResult);
                 raffle.Result = raffle.Result + " " + drawResult;
             }
+        }
+
+        public Raffle[] ReadAll()
+        {
+            IQueryable<Raffle> query = _context.Raffles.OrderBy(p => p.Id);
+            return query.ToArray();
+        }
+
+        public Raffle ReadById(int id)
+        {
+            IQueryable<Raffle> query = _context.Raffles.AsNoTracking().OrderBy(h=>h.Id);
+            return query.FirstOrDefault(p=> p.Id == id);    
+
         }
     }
 }
